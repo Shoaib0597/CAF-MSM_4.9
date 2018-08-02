@@ -1232,3 +1232,8 @@ source "arch/arm64/crypto/Kconfig"
 endif
 
 source "lib/Kconfig"
+
+config PROJECT_GARLIC
+	tristate "Project_Garlic"
+	help
+	  This option allows building for a Target Device. In this case, it is Garlic.

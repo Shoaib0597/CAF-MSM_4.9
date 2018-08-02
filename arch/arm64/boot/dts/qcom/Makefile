@@ -2,6 +2,9 @@ dtb-$(CONFIG_ARCH_QCOM)	+= apq8016-sbc.dtb msm8916-mtp.dtb
 dtb-$(CONFIG_ARCH_QCOM)	+= msm8996-mtp.dtb
 dtb-$(CONFIG_ARCH_QCOM)	+= apq8096-db820c.dtb
 
+ifeq ($(CONFIG_PROJECT_GARLIC),y)
+	dtb-$(CONFIG_ARCH_MSM8937) += msm8937-pmi8950-mtp.dtb
+else
 ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
 	dtbo-$(CONFIG_ARCH_SDM845) += \
 		sdm845-cdp-overlay.dtbo \
@@ -400,6 +403,7 @@ dtb-$(CONFIG_ARCH_SDM429) += sdm429-mtp.dtb \
 	sda429-mtp.dtb \
 	sda429-cdp.dtb
 
+endif
 endif
 
 always		:= $(dtb-y)

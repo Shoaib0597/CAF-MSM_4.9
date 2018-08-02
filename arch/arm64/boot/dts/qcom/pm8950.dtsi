@@ -124,7 +124,11 @@
 			gpio@c100 {
 				reg = <0xc100 0x100>;
 				qcom,pin-num = <2>;
-				status = "disabled";
+				qcom,mode = <0>;
+				qcom,output-type = <2>;
+				qcom,pull = <1>;
+				qcom,vin-sel = <0>;
+				qcom,out-strength = <2>;
 			};
 
 			gpio@c200 {
