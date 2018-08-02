@@ -19,15 +19,10 @@
 #include <linux/input.h>
 #include <linux/workqueue.h>
 #include <linux/kobject.h>
+#include <linux/module.h>
 
 #include <linux/platform_device.h>
 #include <asm/atomic.h>
-
-
-
-
-
-
 
 #include <asm/io.h>
 
@@ -285,8 +280,3 @@ static void __exit TGesture_exit(void)
 module_init(TGesture_init);
 module_exit(TGesture_exit);
 /*----------------------------------------------------------------------------*/
-
-
-
-
-
