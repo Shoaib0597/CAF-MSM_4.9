@@ -20,7 +20,7 @@
 #include <linux/err.h>
 #include <linux/cdev.h>
 #include <linux/types.h>
-#include <linux/wakelock.h>
+#include <linux/pm_wakeup.h>
 #include <linux/sched.h>
 #include <linux/mutex.h>
 #include <linux/pm.h>
@@ -86,7 +86,7 @@ struct efsa120s_data  {
 	struct input_dev		*input_dev;
 	spinlock_t				irq_lock;
 	wait_queue_head_t		efsa_wait;
-	struct wake_lock		wake_lock;
+	struct wakeup_source		wake_lock;
 	u8 isPowerOn;
 	struct regulator *vdd;
 	struct regulator *vio;
@@ -335,7 +335,7 @@ static irqreturn_t efsa120s_irq_handler(int irq, void *_fp)
 
 	ELAN_DEBUG("%s()\n", __func__);
 	/* input power keyevent */
-	wake_lock_timeout(&fp->wake_lock,msecs_to_jiffies(1000));
+	__pm_wakeup_event(&fp->wake_lock,msecs_to_jiffies(1000));
 #if 0
 	input_report_key(fp->input_dev, KEY_FP_INT, 1); /* Added for KEY Event */
 	input_sync(fp->input_dev);
@@ -680,7 +680,7 @@ static int efsa120s_probe(struct platform_device *pdev)
 	if(err < 0)
 		ELAN_DEBUG("GPIO request fail (%d).\n", err);
 
-	wake_lock_init(&fp->wake_lock, WAKE_LOCK_SUSPEND, "fp_wake_lock");
+	wakeup_source_init(&fp->wake_lock, "fp_wake_lock");
 
 #ifdef POWER_NOTIFY
 	fp->notifier = elan_noti_block;
