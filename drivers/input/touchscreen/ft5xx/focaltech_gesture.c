@@ -232,7 +232,7 @@ unsigned short coordinate_y[150] = {0};
 #ifdef CONFIG_FT5XX_TGESTURE_FUNCTION
 static int fts_check_gesture(int gesture_id)
 {
-	int result;
+	int result = 0;
 	switch(gesture_id) {
 	case GESTURE_LEFT:
 		result = KEY_GESTURE_LEFT;
