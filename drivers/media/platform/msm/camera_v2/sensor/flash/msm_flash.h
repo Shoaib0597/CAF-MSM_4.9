@@ -47,10 +47,7 @@ struct msm_flash_func_t {
 		struct msm_flash_cfg_data_t *);
 	int32_t (*camera_flash_query_current)(struct msm_flash_ctrl_t *,
 		struct msm_flash_query_data_t *);
-	int32_t (*camera_flash_read)(struct msm_flash_ctrl_t *,
-		struct msm_flash_cfg_data_t *);
-	int32_t (*camera_flash_write)(struct msm_flash_ctrl_t *,
-		struct msm_flash_cfg_data_t *);
+
 };
 
 struct msm_flash_table {
