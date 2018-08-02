@@ -47,7 +47,7 @@
 
 #include "gf_spi.h"
 #include <linux/poll.h>
-#include <linux/wakelock.h>
+#include <linux/pm_wakeup.h>
 
 #if defined(USE_SPI_BUS)
 #include <linux/spi/spi.h>
@@ -69,8 +69,6 @@
 #define	CLASS_NAME		    "goodix_fp"
 #define SPIDEV_MAJOR		225	/* assigned */
 #define N_SPI_MINORS		32	/* ... up to 256 */
-
-
 
 struct gf_key_map key_map[] = {
 	{  "POWER",  KEY_POWER  },
@@ -110,7 +108,7 @@ static DEFINE_MUTEX(device_list_lock);
 
 static DECLARE_WAIT_QUEUE_HEAD(gf_poll_wq);
 static struct gf_dev gf;
-struct wake_lock fg_wake_lock;
+struct wakeup_source fg_wake_lock;
 
 int g_fp_match_flag = 0;
 static int ftm_gfx_irq_state = 0;
@@ -284,11 +282,11 @@ static irqreturn_t gf_irq(int irq, void *handle)
 #if defined(GF_NETLINK_ENABLE)
 	char temp = GF_NET_EVENT_IRQ;
 	printk("gf_irq \n");
-	wake_lock_timeout(&fg_wake_lock, 5*HZ);
+	__pm_wakeup_event(&fg_wake_lock, 5*HZ);
 	sendnlmsg(&temp);
 #elif defined (GF_FASYNC)
 	struct gf_dev *gf_dev = &gf;
-	wake_lock_timeout(&fg_wake_lock, 5*HZ);
+	__pm_wakeup_event(&fg_wake_lock, 5*HZ);
 	printk("gf_irq GF_FASYNC\n");
 	if (gf_dev->async)
 		kill_fasync(&gf_dev->async, SIGIO, POLL_IN);
@@ -795,7 +793,7 @@ static int gf_probe(struct platform_device *pdev)
 		}*/
 	}
 
-	wake_lock_init(&fg_wake_lock, WAKE_LOCK_SUSPEND, "goodix_wake_lock");
+	wakeup_source_init(&fg_wake_lock, "goodix_wake_lock");
 
 	return status;
 
