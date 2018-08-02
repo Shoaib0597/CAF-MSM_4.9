@@ -31,6 +31,7 @@
 #include <linux/workqueue.h>
 #include <linux/kobject.h>
 #include <linux/platform_device.h>
+#include <linux/module.h>
 
 #include "fp_drv.h"
 
@@ -162,10 +163,3 @@ static void __exit fp_drv_exit(void)
 
 late_initcall(fp_drv_init);
 module_exit(fp_drv_exit);
-
-
-
-
-
-
-
